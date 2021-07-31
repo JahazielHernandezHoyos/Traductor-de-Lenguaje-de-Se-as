@@ -2,7 +2,7 @@ from tensorflow.python.keras.preprocessing.image import ImageDataGenerator #prep
 from tensorflow.python.keras import optimizers #optimizar modelo a entrenar
 from tensorflow.python.keras.models import Sequential #redes neuronales secuenciales
 from tensorflow.python.keras.layers import Dropout, Flatten, Dense #activacion de una capa importante 
-from tensorflow.python.keras.layers import Convolution20, MaxPooling20 #nos permite añadir capas
+from tensorflow.python.keras.layers import Convolution2D, MaxPooling20 #nos permite añadir capas
 from tensorflow.python.keras import backend as K #limpieza de sesiones keras
 
 K.clear_session() #limpiar
