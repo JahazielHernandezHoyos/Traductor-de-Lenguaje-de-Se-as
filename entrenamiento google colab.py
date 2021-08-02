@@ -4,18 +4,20 @@ from tensorflow.python.keras.models import Sequential #redes neuronales secuenci
 from tensorflow.python.keras.layers import Dropout, Flatten, Dense #activacion de una capa importante 
 from tensorflow.python.keras.layers import Convolution2D, MaxPooling2D #nos permite añadir capas
 from tensorflow.python.keras import backend as K #limpieza de sesiones keras
+from google.colab import drive
+drive.mount('/content/drive')
 
 K.clear_session() #limpiar
 
-datos_entrenamiento="/content/drive/Othercomputers/codigos/Desktop/Codigos de lenguaje de señas y proyecto general/Entrenamiento/a"
-datos_validacion="/content/drive/Othercomputers/codigos/Desktop/Codigos de lenguaje de señas y proyecto general/Manos/Validacion izquierda/Mano_Izquierda"
+datos_entrenamiento="/entrenamiento"
+datos_validacion="/validacion"
 
 #parametros
 iteraciones = 20 #while para repetir y ajustarse
 altura, longitud = 200,200 #tamaño de las fotos
 batch_size = 1 #numero de imagenes a enviar secuencialmente 
-pasos = 300/1 #numero de veces que se va a procesar la informacion en cada iteracion
-pasos_validacion = 300/1 #despues de cada iteracion, validamos lo anterior imagenes de testeo
+pasos = 2/1 #numero de veces que se va a procesar la informacion en cada iteracion
+pasos_validacion = 2/1 #despues de cada iteracion, validamos lo anterior imagenes de testeo
 filtrosconv1 = 32
 filtrosconv2 = 64 #numero de filtros que vamos a aplicar en cada convolucion
 tam_filtro1 = (3,3)
@@ -25,23 +27,26 @@ clases = 2 #mano abierta y cerrada (5 dedos y 8 dedos)
 lr = 0.0005 #ajustes de la red neuronal para acercarse a una solucion optima  learning rate
 
 #pre procesado
+
+
 preprocesamiento_entre = ImageDataGenerator(
-    rescale = 1./255,
-    shear_tange = 0.3, #generar muestras imagenes inclinadas para un mejor entrenamiento
+    rescale=1. / 255,
+    shear_range=0.3, #generar muestras imagenes inclinadas para un mejor entrenamiento
     zoom_range = 0.3, #genera imagenes con zoom para un mejor datos_entrenamiento
-    horizontal_flip=True  #invertir las fotos
-)
+    horizontal_flip= True)  #invertir las fotos
+
 
 preprocesamiento_vali = ImageDataGenerator(
     rescale = 1/255
 )
 
-imagen_entreno = preprocesamiento_entre.flow_from_directory(
-    datos_entrenamiento, #va a tomar fotos que ya almacenamos
-    target_size = (altura, longitud),
-    batch_size = batch_size,
-    class_mode = "categorical", #clasificacion categorica = por clases
+imagen_validacion = preprocesamiento_vali.flow_from_directory(
+    datos_validacion,
+    target_size=(altura,longitud),
+    batch_size= batch_size,
+    class_mode="categorical"
 )
+
 
 #creamos la red neuronal convolucional 
 cnn = Sequential() #seleccionamos la red neuronal secuencial 
@@ -72,5 +77,7 @@ cnn.flit(imagen_entreno, steps_per_epech=pasos, epochs= iteraciones, validation_
 #guardamos modelo y pesos de nuestras 
 cnn.save ("Modelo.h5")
 cnn.save_weights("pesos.h5")
+
+
 
 
