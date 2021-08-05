@@ -14,7 +14,7 @@ cnn = load_model(modelo)
 cnn.load_weights(peso)
 
 direccion: "C:/Users/jahaz/Desktop/codigolsd/Codigo final/Validacion/validacion derecha" #validacion direccion
-dire_img = os.listdir(direccion) #guardamos lista mano izquierda mano derecha
+dire_img = os.listdir(direccion) #guardamos lista mano izquierda mano derecha #sucede error##############################################################################
 print("Nombres: ", dire_img)
 
 #leemos la camara (lector de camapra con cv2)
