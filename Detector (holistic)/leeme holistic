@@ -1,0 +1,117 @@
+# Predice pose + mano izquierda / derecha + puntos de referencia de la cara.
+#
+# Se requiere que:
+# - "face_detection_short_range.tflite" está disponible en
+# "mediapipe / modules / face_detection / face_detection_short_range.tflite"
+#
+# - "face_landmark.tflite" está disponible en
+# "mediapipe / modules / face_landmark / face_landmark.tflite"
+#
+# - "hand_landmark.tflite" está disponible en
+# "mediapipe / modules / hand_landmark / hand_landmark.tflite"
+#
+# - "hand_recrop.tflite" está disponible en
+# "mediapipe / modules / holistic_landmark / hand_recrop.tflite"
+#
+# - "handedness.txt" está disponible en
+# "mediapipe / modules / hand_landmark / handedness.txt"
+#
+# - "pose_detection.tflite" está disponible en
+# "mediapipe / modules / pose_detection / pose_detection.tflite"
+#
+# - "pose_landmark_lite.tflite" o "pose_landmark_full.tflite" o
+# "pose_landmark_heavy.tflite" está disponible en
+# "mediapipe / modules / pose_landmark / pose_landmark_lite.tflite" o
+# "mediapipe / modules / pose_landmark / pose_landmark_full.tflite" o
+# "mediapipe / modules / pose_landmark / pose_landmark_heavy.tflite"
+# ruta respectivamente durante la ejecución, dependiendo de la especificación en el
+# MODEL_COMPLEXITY paquete lateral de entrada.
+#
+# EJEMPLO:
+# nodo {
+# calculadora: "HolisticLandmarkCpu"
+input_stream: "IMAGEN: input_video"
+input_side_packet: "MODEL_COMPLEXITY: model_complexity"
+input_side_packet: SMOOTH_LANDMARKS: smooth_landmarks
+output_stream: "POSE_LANDMARKS: pose_landmarks"
+output_stream: "FACE_LANDMARKS: face_landmarks"
+output_stream: "LEFT_HAND_LANDMARKS: left_hand_landmarks"
+output_stream: "RIGHT_HAND_LANDMARKS: right_hand_landmarks"
+#}
+#
+# NOTA: si una salida de pose / mano / rostro no está presente en la imagen, para esto
+# marca de tiempo particular, no habrá un paquete de salida en el correspondiente
+# flujo de salida a continuación. Sin embargo, el marco de MediaPipe informará internamente
+# las calculadoras posteriores de la ausencia de este paquete para que no
+# espere innecesariamente.
+
+tipo: "HolisticLandmarkCpu"
+
+# Imagen de CPU. (ImageFrame)
+input_stream: "IMAGEN: imagen"
+
+# Complejidad del modelo de referencia de pose: 0, 1 o 2. Precisión de referencia así como
+# La latencia de inferencia generalmente aumenta con la complejidad del modelo. Si no se especifica,
+# funciona según lo establecido en 1. (int)
+input_side_packet: "MODEL_COMPLEXITY: model_complexity"
+
+# Si filtrar puntos de referencia en diferentes imágenes de entrada para reducir el jitter.
+# Si no se especifica, funciona como establecido en verdadero. (bool)
+input_side_packet: "SMOOTH_LANDMARKS: smooth_landmarks"
+
+# Plantear puntos de referencia. (NormalizedLandmarkList)
+# 33 posar hitos.
+output_stream: "POSE_LANDMARKS: pose_landmarks"
+# 33 plantean hitos mundiales. (LandmarkList)
+output_stream: "WORLD_LANDMARKS: pose_world_landmarks"
+# 21 puntos de referencia de la mano izquierda. (NormalizedLandmarkList)
+output_stream: "LEFT_HAND_LANDMARKS: left_hand_landmarks"
+# 21 puntos de referencia de la mano derecha. (NormalizedLandmarkList)
+output_stream: "RIGHT_HAND_LANDMARKS: right_hand_landmarks"
+# 468 se enfrentan a puntos de referencia. (NormalizedLandmarkList)
+output_stream: "FACE_LANDMARKS: face_landmarks"
+
+# Salidas de depuración
+flujo_de_salida: "POSE_ROI: pose_landmarks_roi"
+flujo_de_salida: "POSE_DETECTION: pose_detection"
+
+# Predice posar hitos.
+nodo {
+  calculadora: "PoseLandmarkCpu"
+  input_stream: "IMAGEN: imagen"
+  input_side_packet: "MODEL_COMPLEXITY: model_complexity"
+  input_side_packet: "SMOOTH_LANDMARKS: smooth_landmarks"
+  output_stream: "LANDMARKS: pose_landmarks"
+  output_stream: "WORLD_LANDMARKS: pose_world_landmarks"
+  flujo de salida: "ROI_FROM_LANDMARKS: pose_landmarks_roi"
+  output_stream: "DETECCIÓN: pose_detection"
+}
+
+# Predice los puntos de referencia de la mano izquierda y derecha en función de los puntos de referencia de la pose inicial.
+nodo {
+  calculadora: "HandLandmarksLeftAndRightCpu"
+  input_stream: "IMAGEN: imagen"
+  input_stream: "POSE_LANDMARKS: pose_landmarks"
+  output_stream: "LEFT_HAND_LANDMARKS: left_hand_landmarks"
+  output_stream: "RIGHT_HAND_LANDMARKS: right_hand_landmarks"
+}
+
+# Extrae puntos de referencia de pose relacionados con la cara.
+nodo {
+  calculadora: "SplitNormalizedLandmarkListCalculator"
+  input_stream: "pose_landmarks"
+  output_stream: "face_landmarks_from_pose"
+  opciones: {
+    [mediapipe.SplitVectorCalculatorOptions.ext] {
+      rangos: {begin: 0 end: 11}
+    }
+  }
+}
+
+# Predice los puntos de referencia de la cara en función de los puntos de referencia de la pose inicial.
+nodo {
+  calculadora: "FaceLandmarksFromPoseCpu"
+  input_stream: "IMAGEN: imagen"
+  input_stream: "FACE_LANDMARKS_FROM_POSE: face_landmarks_from_pose"
+  output_stream: "FACE_LANDMARKS: face_landmarks"
+} 
