@@ -1,17 +1,20 @@
 import cv2
 import mediapipe as mp
-import os
 import numpy as np
-from keras_preprocessing.image import load_img, img_to_array
+import os
+import tensorflow as tf
+
+from tf.python.keras.preprocessing.image import ImageDataGenerator #preproceso de imagenes para entregar
+from tf.keras_preprocessing.image import load_img, img_to_array
 from keras.models import load_model
 
-modelo = ""
-peso = ""
+modelo = "modelo.h5"
+peso = "pesos.h5"
 cnn = load_model(modelo) 
 cnn.load_weights(peso)
 
-direccion: "" #validacion direccion
-dire_img = os.listdir() #guardamos lista mano izquierda mano derecha
+direccion: "C:/Users/jahaz/Desktop/codigolsd/Codigo final/Validacion/validacion derecha" #validacion direccion
+dire_img = os.listdir(direccion) #guardamos lista mano izquierda mano derecha
 print("Nombres: ", dire_img)
 
 #leemos la camara (lector de camapra con cv2)
@@ -98,5 +101,3 @@ while (1):
      #   break
 cap.release()
 cv2.destroyAllWindows()
-
-                
