@@ -75,6 +75,7 @@ while (1):
             #cv2.imwrite(carpeta + "/mano_{}.jpg".format(cont),dedos_reg)
             #cont = cont + 1
             
+            print(results.multi_handedness)
             
     cv2.imshow("video",frame)
     k = cv2.waitKey(1)
