@@ -50,7 +50,7 @@ data_gen_entrenamiento = image_gen_entrenamiento.flow_from_directory(batch_size=
                                                      directory=carpeta_entrenamiento,
                                                      shuffle=True,
                                                      target_size=(TAMANO_IMG,TAMANO_IMG),
-                                                     class_mode='binary')
+                                                     class_mode='categorical')
 
 #Generacion de datos de validacion
 image_gen_val = ImageDataGenerator(rescale=1./255)
