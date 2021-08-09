@@ -3,9 +3,7 @@ import mediapipe as mp
 import numpy as np
 import os
 import tensorflow as tf
-
-from tf.python.keras.preprocessing.image import ImageDataGenerator #preproceso de imagenes para entregar
-from tf.keras_preprocessing.image import load_img, img_to_array
+from keras_preprocessing.image import load_img, img_to_array
 from keras.models import load_model
 
 modelo = "modelo.h5"
