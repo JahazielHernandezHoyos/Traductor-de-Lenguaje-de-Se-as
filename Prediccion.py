@@ -5,13 +5,15 @@ import os
 import tensorflow as tf
 from keras_preprocessing.image import load_img, img_to_array
 from keras.models import load_model
+#from google.colab import files
+
 
 modelo = "modelo.h5"
 peso = "pesos.h5"
 cnn = load_model(modelo) 
 cnn.load_weights(peso)
 
-direccion: "C:/Users/jahaz/Desktop/codigolsd/Codigo final/Validacion/validacion derecha" #validacion direccion
+direccion = "C:/Users/jahaz/Desktop/codigolsd/Codigo final/Validacion/validacion derecha" #validacion direccion
 dire_img = os.listdir(direccion) #guardamos lista mano izquierda mano derecha #sucede error##############################################################################
 print("Nombres: ", dire_img)
 
