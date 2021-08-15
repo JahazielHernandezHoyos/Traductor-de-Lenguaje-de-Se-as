@@ -13,7 +13,7 @@ modelo = "modelo.h5"
 peso = "pesos.h5"
 cnn = load_model(modelo) 
 cnn.load_weights(peso)
-
+#de la direccion va a saber cual mano sera#################
 direccion: "/Base de datos mano izquierda y derecha/validacion derecha" #validacion direccion
 dire_img = os.listdir(direccion) #guardamos lista mano izquierda mano derecha #sucede error##############################################################################
 print("Nombres: ", dire_img)
@@ -81,7 +81,11 @@ while (1):
                 #hacemos informacion
 
                 if respuesta == 1:
-                    print(vector, resultado)
+                    print(vector,resultado)
+                    cv2.rectangle(frame, (x1, y1), (x2, y2), (0,0,0), 3)
+                    cv2.rectangle(frame, "{}".format(dire_img[0]), (x1, y1 - 5), 1, 1.3, (0, 0, 255), 1, cv2.LINE_AA)
+                elif respuesta == 0:
+                    print(vector,resultado)
                     cv2.rectangle(frame, (x1, y1), (x2, y2), (0,0,0), 3)
                     cv2.rectangle(frame, "{}".format(dire_img[1]), (x1, y1 - 5), 1, 1.3, (0, 0, 255), 1, cv2.LINE_AA)
                 
@@ -102,3 +106,5 @@ while (1):
      #   break
 cap.release()
 cv2.destroyAllWindows()
+
+################ poner __ piso en las carpetas por si acaso
