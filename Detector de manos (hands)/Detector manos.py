@@ -1,19 +1,8 @@
+  
 import cv2
 import mediapipe as mp
-import os
-
-
-#creacion de la carpeta usando libreria OS o ubicandonos en ella
-nombre = "Mano_Izquierda"
-direccion = "C:/Users/jahaz/Desktop/lsd/Manos/entrenamiento izquierda"
-carpeta = direccion + '/' + nombre
-if not os.path.exists(carpeta):
-    print("carpeta creada: ", carpeta)
-    os.makedirs(carpeta)
-    os.makedirs(carpeta)
 
 #asignamos un contador para el nombre de la foto
-cont = 0
 
 #leemos la camara (lector de camapra con cv2)
 cap = cv2.VideoCapture(0)
@@ -75,7 +64,6 @@ while (1):
             #cv2.imwrite(carpeta + "/mano_{}.jpg".format(cont),dedos_reg)
             #cont = cont + 1
             
-            print(results.multi_handedness)
             
     cv2.imshow("video",frame)
     k = cv2.waitKey(1)
@@ -87,5 +75,4 @@ while (1):
      #   break
 cap.release()
 cv2.destroyAllWindows()
-
                 
