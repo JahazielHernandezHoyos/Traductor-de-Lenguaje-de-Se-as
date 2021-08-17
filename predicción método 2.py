@@ -14,7 +14,7 @@ peso = "pesos.h5"
 cnn = load_model(modelo) 
 cnn.load_weights(peso)
 #de la direccion va a saber cual mano sera#################
-direccion: "/Base_de_datos" #validacion direccion
+direccion = "Base_de_datos" #validacion direccion
 dire_img = os.listdir(direccion) #guardamos lista mano izquierda mano derecha #sucede error##############################################################################
 print("Nombres: ", dire_img)
 
