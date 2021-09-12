@@ -36,16 +36,26 @@ while True:
     if len(lmList) != 0:
 
         dedos = []
-        for id in range(0,5):
+
+#pulgar
+        if lmList[tipIds[0]][1] > lmList[tipIds[0]-1][1]:
+            dedos.append(1)
+        else:
+            dedos.append(0)
+
+#4 dedos
+        for id in range(1,5):
             if lmList[tipIds[id]][2] < lmList[tipIds[id]-2][2]:
                 dedos.append(1)
             else:
                 dedos.append(0)
         
-        print(dedos)
+        #print(dedos)
+        TotalDedos = dedos.count(1)
+        #print(TotalDedos)
 
-    h, w, c = overlayList[0].shape
-    img[0:h,0:w] = overlayList[1]
+        h, w, c = overlayList[TotalDedos-1].shape
+        img[0:h,0:w] = overlayList[TotalDedos-1]
 
     cTime = time.time()
     fps = 1/(cTime-pTime)
@@ -56,4 +66,3 @@ while True:
 
     cv2.imshow("Image",img)
     cv2.waitKey(1)
-
