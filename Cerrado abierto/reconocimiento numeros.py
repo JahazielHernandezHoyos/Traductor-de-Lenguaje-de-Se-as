@@ -24,6 +24,9 @@ pTime = 0
 
 detector = htm.HandDetector(detectionCon=0.75)
 
+tipIds = [ 4, 8, 12, 16, 20]
+
+
 while True:
     sccess, img = cap.read()
     img = detector.findHands(img)
@@ -31,9 +34,15 @@ while True:
     #print(lmList)
 
     if len(lmList) != 0:
-        if lmList[8][2] < lmList[6][2]:
-            print("el indice esta abierto")
-        else: print("El indice esta cerrado") 
+
+        dedos = []
+        for id in range(0,5):
+            if lmList[tipIds[id]][2] < lmList[tipIds[id]-2][2]:
+                dedos.append(1)
+            else:
+                dedos.append(0)
+        
+        print(dedos)
 
     h, w, c = overlayList[0].shape
     img[0:h,0:w] = overlayList[1]
