@@ -17,22 +17,17 @@ if not os.path.exists(carpeta):
 cont = 0
 
 
-
 wCam, hCam = 1280,720
 
 
-cap = cv2.VideoCapture(1)
+cap = cv2.VideoCapture(2)
 cap.set(3,wCam)
 cap.set(4,hCam)
 
 Path= "Letras"
 myList = os.listdir(Path)
 #print(myList)
-overlayList = []
-for imPath in myList:
-    image = cv2.imread(f"{Path}/{imPath}")
-    print(f"{Path}/{imPath}")
-    overlayList.append(image)
+
 
 #print(len(overlayList))
 #print(overlayList)
@@ -73,13 +68,15 @@ while True:
         #pulgar = list(lmList)
         #print(pulgar)
 
-        punto1=lmList[0[0][1]]
-        print(punto1)
+        punto0_x=lmList[0][1]
+        print(punto0_x)
+        
+        punto0_y=lmList[0][2]
+        print(punto0_y)
+
 
         #print(dedos[0])
 
-        h, w, c = overlayList[TotalDedos-1].shape
-        img[0:h,0:w] = overlayList[TotalDedos-1]
         
     cTime = time.time()
     fps = 1/(cTime-pTime)
