@@ -3,8 +3,7 @@ import mediapipe as mp
 import time
 
 class handDetector():
-    def __init__(self, mode=False, maxHands=2, detectionCon=0.5, trackCon=0.5):
-        self.mode = mode
+    def __init__(self, maxHands=2, detectionCon=0.5, trackCon=0.5):
         self.maxHands = maxHands
         self.detectionCon = detectionCon
         self.trackCon = trackCon

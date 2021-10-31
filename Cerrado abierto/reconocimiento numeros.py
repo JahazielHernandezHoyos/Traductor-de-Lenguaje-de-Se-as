@@ -2,6 +2,7 @@ import cv2
 import time
 import os
 import HandTrackingModule as htm
+import mediapipe as mp
 
 wCam, hCam = 1280,720
 
@@ -22,7 +23,7 @@ for imPath in myList:
 #print(len(overlayList))
 pTime = 0
 
-detector = htm.HandDetector(detectionCon=0.75)
+detector = htm.HandDetector()
 
 tipIds = [ 4, 8, 12, 16, 20]
 
@@ -31,14 +32,14 @@ while True:
     sccess, img = cap.read()
     img = detector.findHands(img)
     lmList = detector.findPosition(img, draw=False)
-    #print(lmList)
+    print(lmList)
 
     if len(lmList) != 0:
 
         dedos = []
 
 #pulgar
-        if lmList[tipIds[0]][1] > lmList[tipIds[0]-1][1]:
+        if lmList[tipIds[0]][1] < lmList[tipIds[0]-1][1]:
             dedos.append(1)
         else:
             dedos.append(0)
