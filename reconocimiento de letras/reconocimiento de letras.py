@@ -8,7 +8,7 @@ mp_hands = mp.solutions.hands
 
 
 #cap = cv2.VideoCapture("Letras/Letra_e.mp4")
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(1)
 
 
 wCam, hCam = 1920,  1080
@@ -45,7 +45,7 @@ with mp_hands.Hands(
                     x3 = int(hand_landmarks.landmark[mp_hands.HandLandmark.PINKY_MCP].x * width)
                     y3 = int(hand_landmarks.landmark[mp_hands.HandLandmark.PINKY_MCP].y * height)
                     
-                    #COORDENADAS ANULAS
+                    #COORDENADAS ANULAR
                     x4 = int(hand_landmarks.landmark[mp_hands.HandLandmark.RING_FINGER_TIP].x * width)
                     y4 = int(hand_landmarks.landmark[mp_hands.HandLandmark.RING_FINGER_TIP].y * height)
                     x5 = int(hand_landmarks.landmark[mp_hands.HandLandmark.RING_FINGER_PIP].x * width)
@@ -134,50 +134,66 @@ with mp_hands.Hands(
                     l18 = np.linalg.norm(p16 - p17)
 
 
+                    #despejar y quitar determinaciones con numeradores menores al denominador
+                    
+                    num_den1= (l1**2 + l3**2 - l2**2) / (2 * l1 * l3)
+
+                    num_den2= (l4**2 + l6**2 - l5**2) / (2 * l4 * l6)
+
+                    num_den3= (l7**2 + l9**2 - l8**2) / (2 * l7 * l9)
+
+                    num_den4= (l10**2 + l12**2 - l11**2) / (2 * l10 * l12)
+
+                    num_den5= (l13**2 + l15**2 - l14**2) / (2 * l13 * l15)
+
+                    num_den6 = (l16**2 + l18**2 - l17**2) / (2 * l16 * l18)
+
+
 
                     # Calcular el ángulo
-                    if l1 and l3 != 0:
-                        angle1 = round(degrees(abs(acos((l1**2 + l3**2 - l2**2) / (2 * l1 * l3)))))
-                    else:
-                        angle1 = 1
 
-                    if l4 and l6 != 0:
-                        angle2 = round(degrees(abs(acos((l4**2 + l6**2 - l5**2) / (2 * l4 * l6)))))
+                    if l1 and l3 != 0 and -1<num_den1<1:
+                        angle1 = round(degrees(abs(acos(num_den1))))
                     else:
-                        angle2 = 1
+                        angle1 = 0
 
-                    if l7 and l9 != 0:
-                        angle3 = round(degrees(abs(acos((l7**2 + l9**2 - l8**2) / (2 * l7 * l9)))))
+                    if l4 and l6 != 0 and -1<num_den2<1:
+                        angle2 = round(degrees(abs(acos(num_den2))))
+                    else:
+                        angle2 = 0
+
+                    if l7 and l9 != 0 and -1<num_den3<1:
+                        angle3 = round(degrees(abs(acos(num_den3))))
                     else: 
-                        angle3 = 1
+                        angle3 = 0
 
-                    if l10 and l12 != 0:
-                        angle4 = round(degrees(abs(acos((l10**2 + l12**2 - l11**2) / (2 * l10 * l12)))))
+                    if l10 and l12 != 0 and -1<num_den4<1:
+                        angle4 = round(degrees(abs(acos(num_den4))))
                     else:
-                        angle4 = 1
+                        angle4 = 0
 
-                    if l13 and l15 != 0:  
-                        angle5  = round(degrees(abs(tan((l13**2 + l15**2 - l14**2) / (2 * l13 * l15)))))
+                    if l13 and l15 != 0 and -1<num_den5<1: 
+                        angle5  = round(degrees(abs(acos(num_den5))))
                     else:
-                        angle5 = 1
+                        angle5 = 0
                     
-                    if l16 and l18 != 0:
-                        angle6 = round(degrees(abs(tan((l16**2 + l18**2 - l17**2) / (2 * l16 * l18)))))
+                    if l16 and l18 != 0 and -1<num_den6<1:
+                        angle6 = round(degrees(abs(acos(num_den6))))
                     else:
-                        angle6 = 1
+                        angle6 = 0
                     
 
                     angulosid = [angle1, angle2, angle3, angle4, angle5, angle6]
                     dedos = []
                     
                     #pulgar externo angle
-                    if angle6 > 30:
+                    if angle6 > 100:
                         dedos.append(1)
                     else:
                         dedos.append(0)
 
                     #pulgar interno
-                    if angle5 > 60:
+                    if angle5 > 150:
                         dedos.append(1)
                     else:
                         dedos.append(0)
@@ -190,7 +206,7 @@ with mp_hands.Hands(
                              dedos.append(0)
 
                     
-                    print(dedos)
+                    
                     TotalDedos = dedos.count(1)
 
 
@@ -224,10 +240,23 @@ with mp_hands.Hands(
                     #print("count: ", count)
                     # Visualización
                     
-                    print ("meñique:", angle1, "anular:", angle2, "medio:", angle3, "indice:", angle4, "pulgar 1:", angle5, "pulgar 2:", angle6)
+                    #line=[l1, l2, l3, l4, l5, l6, l7, l8, l9, l10, l11, l12, l13, l14, l15, l16, l17, l18]
+                    #print(line)
+                    if dedos == [1,1,0,0,0,0]:
+                        print("A")
+                    if dedos == [0,0,0,0,0,0]:
+                        print("E")
+                    if dedos == [0,0,1,0,0,0]:
+                        print("I")
+                    if dedos == [0,0,1,1,1,1]:
+                        print("O")
+                    if dedos == [0,0,1,0,0,1]:
+                        print("U")
+                    #print(dedos)
+                    #print ("meñique:", angle1, "anular:", angle2, "medio:", angle3, "indice:", angle4, "pulgar 1:", angle5, "pulgar 2:", angle6)
                     # print (angle1, angle2, angle3, angle4, angle5, angle6)
 
-                    # print(angle1)
+                    #print(angle1)
                     
     # Accediendo al valor de los puntos por su índice
                 
