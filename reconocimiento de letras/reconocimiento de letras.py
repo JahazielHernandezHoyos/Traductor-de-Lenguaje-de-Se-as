@@ -6,6 +6,7 @@ mp_drawing = mp.solutions.drawing_utils
 mp_hands = mp.solutions.hands
 
 
+
 #cap = cv2.VideoCapture("Letras/Letra_e.mp4")
 cap = cv2.VideoCapture(0)
 
@@ -156,15 +157,41 @@ with mp_hands.Hands(
                         angle4 = 1
 
                     if l13 and l15 != 0:  
-                        angle5  = round(degrees(abs(acos((l13**2 + l15**2 - l14**2) / (2 * l13 * l15)))))
+                        angle5  = round(degrees(abs(tan((l13**2 + l15**2 - l14**2) / (2 * l13 * l15)))))
                     else:
                         angle5 = 1
                     
                     if l16 and l18 != 0:
-                        angle6 = round(degrees(abs(acos((l16**2 + l18**2 - l17**2) / (2 * l16 * l18)))))
+                        angle6 = round(degrees(abs(tan((l16**2 + l18**2 - l17**2) / (2 * l16 * l18)))))
                     else:
                         angle6 = 1
                     
+
+                    angulosid = [angle1, angle2, angle3, angle4, angle5, angle6]
+                    dedos = []
+                    
+                    #pulgar externo angle
+                    if angle6 > 30:
+                        dedos.append(1)
+                    else:
+                        dedos.append(0)
+
+                    #pulgar interno
+                    if angle5 > 60:
+                        dedos.append(1)
+                    else:
+                        dedos.append(0)
+
+                    #4 dedos
+                    for id in range(0,4):
+                         if angulosid[id] > 90:
+                             dedos.append(1)
+                         else:
+                             dedos.append(0)
+
+                    
+                    print(dedos)
+                    TotalDedos = dedos.count(1)
 
 
 
@@ -201,7 +228,7 @@ with mp_hands.Hands(
                     # print (angle1, angle2, angle3, angle4, angle5, angle6)
 
                     # print(angle1)
-                    if angle1 < 
+                    
     # Accediendo al valor de los puntos por su índice
                 
                 
