@@ -8,7 +8,7 @@ mp_hands = mp.solutions.hands
 
 
 
-cap = cv2.VideoCapture("Letras/Letra_i.mp4")
+cap = cv2.VideoCapture("Letras/Letra_o.mp4")
 #cap = cv2.VideoCapture(1)
 
 
@@ -188,7 +188,7 @@ with mp_hands.Hands(
                     dedos = []
                     
                     #pulgar externo angle
-                    if angle6 > 115:
+                    if angle6 > 125:
                         dedos.append(1)
                     else:
                         dedos.append(0)
@@ -257,7 +257,7 @@ with mp_hands.Hands(
                         cv2.rectangle(frame,(0,0),(100,100),(255,255,255), -1)
                         cv2.putText(frame,'I',(20,80),font,3,(0,0,0),2,cv2.LINE_AA)
                         print("I")
-                    if dedos == [1,0,1,1,1,1]:
+                    if dedos == [1,0,1]:
                         cv2.rectangle(frame,(0,0),(100,100),(255,255,255), -1)
                         cv2.putText(frame,'O',(20,80),font,3,(0,0,0),2,cv2.LINE_AA)
                         print("O")
@@ -303,7 +303,7 @@ with mp_hands.Hands(
 
                     print(dedos)
                     
-                    #print ("meñique:", angle1, "anular:", angle2, "medio:", angle3, "indice:", angle4, "pulgar 1:", angle5, "pulgar 2:", angle6)
+                    print ("meñique:", angle1, "anular:", angle2, "medio:", angle3, "indice:", angle4, "pulgar 1:", angle5, "pulgar 2:", angle6)
                     # print (angle1, angle2, angle3, angle4, angle5, angle6)
 
                     #print(angle1)
