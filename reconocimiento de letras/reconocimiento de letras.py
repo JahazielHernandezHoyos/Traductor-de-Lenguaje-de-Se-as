@@ -2,13 +2,14 @@ import cv2
 import mediapipe as mp
 import numpy as np
 from math import *
+
 mp_drawing = mp.solutions.drawing_utils
 mp_hands = mp.solutions.hands
 
 
 
-#cap = cv2.VideoCapture("Letras/Letra_e.mp4")
-cap = cv2.VideoCapture(1)
+cap = cv2.VideoCapture("Letras/Letra_i.mp4")
+#cap = cv2.VideoCapture(1)
 
 
 wCam, hCam = 1920,  1080
@@ -187,7 +188,7 @@ with mp_hands.Hands(
                     dedos = []
                     
                     #pulgar externo angle
-                    if angle6 > 100:
+                    if angle6 > 115:
                         dedos.append(1)
                     else:
                         dedos.append(0)
@@ -242,17 +243,66 @@ with mp_hands.Hands(
                     
                     #line=[l1, l2, l3, l4, l5, l6, l7, l8, l9, l10, l11, l12, l13, l14, l15, l16, l17, l18]
                     #print(line)
+                    
+                    font = cv2.FONT_HERSHEY_SIMPLEX
                     if dedos == [1,1,0,0,0,0]:
+                        cv2.rectangle(frame,(0,0),(100,100),(255,255,255), -1)
+                        cv2.putText(frame,'A',(20,80),font,3,(0,0,0),2,cv2.LINE_AA)
                         print("A")
                     if dedos == [0,0,0,0,0,0]:
+                        cv2.rectangle(frame,(0,0),(100,100),(255,255,255), -1)
+                        cv2.putText(frame,'E',(20,80),font,3,(0,0,0),2,cv2.LINE_AA)
                         print("E")
                     if dedos == [0,0,1,0,0,0]:
+                        cv2.rectangle(frame,(0,0),(100,100),(255,255,255), -1)
+                        cv2.putText(frame,'I',(20,80),font,3,(0,0,0),2,cv2.LINE_AA)
                         print("I")
-                    if dedos == [0,0,1,1,1,1]:
+                    if dedos == [1,0,1,1,1,1]:
+                        cv2.rectangle(frame,(0,0),(100,100),(255,255,255), -1)
+                        cv2.putText(frame,'O',(20,80),font,3,(0,0,0),2,cv2.LINE_AA)
                         print("O")
                     if dedos == [0,0,1,0,0,1]:
+                        cv2.rectangle(frame,(0,0),(100,100),(255,255,255), -1)
+                        cv2.putText(frame,'U',(20,80),font,3,(0,0,0),2,cv2.LINE_AA)
                         print("U")
-                    #print(dedos)
+
+                    #abecedario
+                    if dedos == [0,0,1,1,1,1]:
+                        cv2.rectangle(frame,(0,0),(100,100),(255,255,255), -1)
+                        cv2.putText(frame,'B',(20,80),font,3,(0,0,0),2,cv2.LINE_AA)
+                        print("B")
+                    if dedos ==[1,0,1,0,0,0]:
+                        cv2.rectangle(frame,(0,0),(100,100),(255,255,255), -1)
+                        cv2.putText(frame,'C',(20,80),font,3,(0,0,0),2,cv2.LINE_AA)
+                        print("C")
+                    if dedos == [0,0,0,0,0,1]:
+                        cv2.rectangle(frame,(0,0),(100,100),(255,255,255), -1)
+                        cv2.putText(frame,'D',(20,80),font,3,(0,0,0),2,cv2.LINE_AA)
+                        print("D")
+                    if dedos == [1,1,0,0,1,1]:
+                        cv2.rectangle(frame,(0,0),(100,100),(255,255,255), -1)
+                        cv2.putText(frame,'K',(20,80),font,3,(0,0,0),2,cv2.LINE_AA)
+                        print("K")
+                    if dedos ==[1,1,0,0,0,1]:
+                        cv2.rectangle(frame,(0,0),(100,100),(255,255,255), -1)
+                        cv2.putText(frame,'L',(20,80),font,3,(0,0,0),2,cv2.LINE_AA)
+                        print("L")
+                    if dedos ==[0,1,0,1,1,1]:
+                        cv2.rectangle(frame,(0,0),(100,100),(255,255,255), -1)
+                        cv2.putText(frame,'W',(20,80),font,3,(0,0,0),2,cv2.LINE_AA)
+                        print("W")
+                    if dedos ==[1,1,1,0,0,0]:
+                        cv2.rectangle(frame,(0,0),(100,100),(255,255,255), -1)
+                        cv2.putText(frame,'Y',(20,80),font,3,(0,0,0),2,cv2.LINE_AA)
+                        print("Y")
+                    if dedos ==[1,1,1,1,1,0]:
+                        cv2.rectangle(frame,(0,0),(100,100),(255,255,255), -1)
+                        cv2.putText(frame,'F',(20,80),font,3,(0,0,0),2,cv2.LINE_AA)
+                        print("F")
+
+
+                    print(dedos)
+                    
                     #print ("meñique:", angle1, "anular:", angle2, "medio:", angle3, "indice:", angle4, "pulgar 1:", angle5, "pulgar 2:", angle6)
                     # print (angle1, angle2, angle3, angle4, angle5, angle6)
 
