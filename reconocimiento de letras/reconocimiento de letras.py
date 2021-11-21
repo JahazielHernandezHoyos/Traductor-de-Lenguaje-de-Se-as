@@ -3,6 +3,7 @@ import mediapipe as mp
 import numpy as np
 from math import *
 
+
 mp_drawing = mp.solutions.drawing_utils
 mp_hands = mp.solutions.hands
 mp_drawing_styles = mp.solutions.drawing_styles
@@ -184,6 +185,7 @@ with mp_hands.Hands(
                         angle6 = round(degrees(abs(acos(num_den6))))
                     else:
                         angle6 = 0
+
                     
 
                     angulosid = [angle1, angle2, angle3, angle4, angle5, angle6]
@@ -251,22 +253,31 @@ with mp_hands.Hands(
                         cv2.rectangle(frame,(0,0),(100,100),(255,255,255), -1)
                         cv2.putText(frame,'A',(20,80),font,3,(0,0,0),2,cv2.LINE_AA)
                         print("A")
+
+
                     if dedos == [0,0,0,0,0,0]:
                         cv2.rectangle(frame,(0,0),(100,100),(255,255,255), -1)
                         cv2.putText(frame,'E',(20,80),font,3,(0,0,0),2,cv2.LINE_AA)
                         print("E")
+
+
                     if dedos == [0,0,1,0,0,0]:
                         cv2.rectangle(frame,(0,0),(100,100),(255,255,255), -1)
                         cv2.putText(frame,'I',(20,80),font,3,(0,0,0),2,cv2.LINE_AA)
                         print("I")
+
+
                     if dedos == [1,0,1,0,0,0]:
                         cv2.rectangle(frame,(0,0),(100,100),(255,255,255), -1)
                         cv2.putText(frame,'O',(20,80),font,3,(0,0,0),2,cv2.LINE_AA)
                         print("O")
+
+
                     if dedos == [0,0,1,0,0,1]:
                         cv2.rectangle(frame,(0,0),(100,100),(255,255,255), -1)
                         cv2.putText(frame,'U',(20,80),font,3,(0,0,0),2,cv2.LINE_AA)
                         print("U")
+                        
 
                     #abecedario
                     if dedos == [0,0,1,1,1,1]:
@@ -293,6 +304,10 @@ with mp_hands.Hands(
                         cv2.rectangle(frame,(0,0),(100,100),(255,255,255), -1)
                         cv2.putText(frame,'W',(20,80),font,3,(0,0,0),2,cv2.LINE_AA)
                         print("W")
+                    if dedos ==[0,1,0,0,1,1]:
+                        cv2.rectangle(frame,(0,0),(100,100),(255,255,255), -1)
+                        cv2.putText(frame,'N',(20,80),font,3,(0,0,0),2,cv2.LINE_AA)
+                        print("N")
                     if dedos ==[1,1,1,0,0,0]:
                         cv2.rectangle(frame,(0,0),(100,100),(255,255,255), -1)
                         cv2.putText(frame,'Y',(20,80),font,3,(0,0,0),2,cv2.LINE_AA)
@@ -301,6 +316,16 @@ with mp_hands.Hands(
                         cv2.rectangle(frame,(0,0),(100,100),(255,255,255), -1)
                         cv2.putText(frame,'F',(20,80),font,3,(0,0,0),2,cv2.LINE_AA)
                         print("F")
+                    if dedos ==[0,1,1,1,1,1]:
+                        cv2.rectangle(frame,(0,0),(100,100),(255,255,255), -1)
+                        cv2.putText(frame,'P',(20,80),font,3,(0,0,0),2,cv2.LINE_AA)
+                        print("P")
+                    if dedos==[0, 1, 0, 0, 1, 1]:
+                        cv2.rectangle(frame,(0,0),(100,100),(255,255,255), -1)
+                        cv2.putText(frame,'V',(20,80),font,3,(0,0,0),2,cv2.LINE_AA)
+                        print("V")
+
+
 
 
                     print(dedos)
