@@ -5,16 +5,18 @@ from math import *
 
 mp_drawing = mp.solutions.drawing_utils
 mp_hands = mp.solutions.hands
+mp_drawing_styles = mp.solutions.drawing_styles
 
 
 
-cap = cv2.VideoCapture("Letras/Letra_o.mp4")
-#cap = cv2.VideoCapture(1)
+#cap = cv2.VideoCapture("Letras/Letra_o.mp4")
+cap = cv2.VideoCapture(0)
 
-
-wCam, hCam = 1920,  1080
+wCam, hCam = 1280, 720
 cap.set(3,wCam)
 cap.set(4,hCam)
+
+
 
 up = False
 down = False
@@ -257,7 +259,7 @@ with mp_hands.Hands(
                         cv2.rectangle(frame,(0,0),(100,100),(255,255,255), -1)
                         cv2.putText(frame,'I',(20,80),font,3,(0,0,0),2,cv2.LINE_AA)
                         print("I")
-                    if dedos == [1,0,1]:
+                    if dedos == [1,0,1,0,0,0]:
                         cv2.rectangle(frame,(0,0),(100,100),(255,255,255), -1)
                         cv2.putText(frame,'O',(20,80),font,3,(0,0,0),2,cv2.LINE_AA)
                         print("O")
@@ -271,10 +273,10 @@ with mp_hands.Hands(
                         cv2.rectangle(frame,(0,0),(100,100),(255,255,255), -1)
                         cv2.putText(frame,'B',(20,80),font,3,(0,0,0),2,cv2.LINE_AA)
                         print("B")
-                    if dedos ==[1,0,1,0,0,0]:
-                        cv2.rectangle(frame,(0,0),(100,100),(255,255,255), -1)
-                        cv2.putText(frame,'C',(20,80),font,3,(0,0,0),2,cv2.LINE_AA)
-                        print("C")
+                    # if dedos ==[1,0,1,0,0,0]:
+                    #     cv2.rectangle(frame,(0,0),(100,100),(255,255,255), -1)
+                    #     cv2.putText(frame,'C',(20,80),font,3,(0,0,0),2,cv2.LINE_AA)
+                    #     print("C")
                     if dedos == [0,0,0,0,0,1]:
                         cv2.rectangle(frame,(0,0),(100,100),(255,255,255), -1)
                         cv2.putText(frame,'D',(20,80),font,3,(0,0,0),2,cv2.LINE_AA)
@@ -311,13 +313,15 @@ with mp_hands.Hands(
     # Accediendo al valor de los puntos por su índice
                 
                 
-                index = [0, 1, 2, 3, 5, 6, 7, 9, 10, 11, 13, 14, 15, 17, 18, 19]
-                for hand_landmarks in results.multi_hand_landmarks:
-                    for (i, points) in enumerate(hand_landmarks.landmark):
-                        if i in index:
-                            x = int(points.x * width)
-                            y = int(points.y * height)
-                            cv2.circle(frame, (x, y), 3,(255, 0, 255), 3)
+
+                if results.multi_hand_landmarks:
+                    for hand_landmarks in results.multi_hand_landmarks:
+                        mp_drawing.draw_landmarks(
+                            frame,
+                            hand_landmarks,
+                            mp_hands.HAND_CONNECTIONS,
+                            mp_drawing_styles.get_default_hand_landmarks_style(),
+                            mp_drawing_styles.get_default_hand_connections_style())
             cv2.imshow('Frame',frame)
             if cv2.waitKey(1) & 0xFF == 27:
                 break
